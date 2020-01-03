@@ -37,4 +37,16 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function login()
+    {
+        $user = \App\User::where('email', request('email'))->get();
+        if ($user->isEmpty()) {
+            return ['error'=>'User not found'];
+        }
+        if (password_verify(request('password'), \App\User::where('email', request('email'))->value('password')))
+            return $user;
+        else
+            return ['error'=>'Invalid combination'];
+    }
 }
