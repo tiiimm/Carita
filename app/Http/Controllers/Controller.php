@@ -20,7 +20,7 @@ class Controller extends BaseController
         ]);
 
         if($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
+            return response(['errors' => $validator->errors()->all()]);
         }
 
         if (request('role') == 'Philanthropist')
@@ -33,7 +33,7 @@ class Controller extends BaseController
             ]);
             
             if($philanthropist_validator->fails()) {
-                return response(['errors' => $philanthropist_validator->errors()->all()], 422);
+                return response(['errors' => $philanthropist_validator->errors()->all()]);
             }
         }
         elseif (request('role') == 'Charity')
@@ -50,7 +50,7 @@ class Controller extends BaseController
             ]);
             
             if($charity_validator->fails()) {
-                return response(['errors' => $charity_validator->errors()->all()], 422);
+                return response(['errors' => $charity_validator->errors()->all()]);
             }
         }
 

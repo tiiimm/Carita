@@ -57,7 +57,7 @@ class RegisterController extends Controller
         ]);
 
         if($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
+            return response(['errors' => $validator->errors()->all()]);
         }
 
         return $this->create();
@@ -75,7 +75,6 @@ class RegisterController extends Controller
             'name' => request('name'),
             'email' => request('email'),
             'username' => request('username'),
-            'role' => request('role'),
             'points' => 0,
             'photo' => '',
             'password' => Hash::make(request('password')),
