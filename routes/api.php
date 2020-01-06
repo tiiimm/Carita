@@ -19,6 +19,8 @@ Route::POST('/set_up', 'Controller@set_up');
 Route::POST('/validate_charity', 'Controller@validate_charity');
 Route::POST('/validate_philanthropist', 'Controller@validate_philanthropist');
 
+Route::GET('/get_profile', 'Controller@get_profile');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

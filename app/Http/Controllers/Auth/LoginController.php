@@ -45,8 +45,13 @@ class LoginController extends Controller
         if (!$user) {
             return ['error'=>'User not found'];
         }
-        if (password_verify(request('password'), \App\User::where('email', request('email'))->value('password')))
+        if (password_verify(request('password'), \App\User::where('email', request('email'))->value('password'))) {
+            if ($user->role == "Charity")
+                $user->Charity;
+            if ($user->role == "Philanthropist")
+                $user->Philanthropist;
             return $user;
+        }
         else
             return ['error'=>'Invalid combination'];
     }

@@ -113,4 +113,8 @@ class Controller extends BaseController
             'sex' => request('sex')
         ]);
     }
+
+    public function get_profile() {
+        return \App\Charity::where('user_id', request('user_id'))->first();
+    }
 }
