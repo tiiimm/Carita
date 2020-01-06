@@ -40,8 +40,9 @@ class LoginController extends Controller
 
     public function login()
     {
-        $user = \App\User::where('email', request('email'))->get();
-        if ($user->isEmpty()) {
+        $user_id = \App\User::where('email', request('email'))->value('id');
+        $user = \App\User::find($user_id);
+        if (!$user) {
             return ['error'=>'User not found'];
         }
         if (password_verify(request('password'), \App\User::where('email', request('email'))->value('password')))

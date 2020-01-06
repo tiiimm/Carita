@@ -12,6 +12,32 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function validate_philanthropist() {
+        $philanthropist_validator = Validator::make(request()->all(), [
+            'user_id' => ['required', 'integer', 'max:255', 'unique:philanthropists', 'unique:charities'],
+            'contact_number' => ['sometimes', 'integer', 'unique:philanthropists', 'unique:charities'],
+            'birthday' => ['sometimes', 'date'],
+            'sex' => ['sometimes', 'string'],
+        ]);
+        
+        if($philanthropist_validator->fails()) {
+            return response(['errors' => $philanthropist_validator->errors()->all()]);
+        }
+    }
+
+    public function validate_charity() {
+        $charity_validator = Validator::make(request()->all(), [
+            'user_id' => ['required', 'integer', 'max:255', 'unique:philanthropists', 'unique:charities'],
+            'contact_number' => ['required', 'integer', 'unique:charities', 'unique:philanthropists'],
+            'organization' => ['required', 'string', 'max:225', 'unique:charities']
+        ]);
+        
+        if($charity_validator->fails()) {
+            return response(['errors' => $charity_validator->errors()->all()]);
+        }
+        return response(['success'=>true]);
+    }
+
     public function set_up()
     {
         $validator = Validator::make(request()->all(), [

@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 Route::POST('/register', 'Auth\RegisterController@validator');
 Route::POST('/login', 'Auth\LoginController@login');
 Route::POST('/set_up', 'Controller@set_up');
+Route::POST('/validate_charity', 'Controller@validate_charity');
+Route::POST('/validate_philanthropist', 'Controller@validate_philanthropist');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
