@@ -7,79 +7,21 @@ use Illuminate\Http\Request;
 
 class CharityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function get_own_achievements() {
+        return \App\User::find(request('user_id'))->charity->achievements;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function get_achievements() {
+        return \App\CharityAchievement::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function get_charities() {
+        return \App\Charity::all();
     }
+    
+    public function upload_achievement() {
+        \App\User::find(request('user_id'))->charity->achievements()->create(request()->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Charity  $charity
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Charity $charity)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Charity  $charity
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Charity $charity)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Charity  $charity
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Charity $charity)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Charity  $charity
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Charity $charity)
-    {
-        //
+        return ['success' => true];
     }
 }
