@@ -45,6 +45,10 @@ class User extends Authenticatable
         return $this->hasOne('App\Philanthropist');
     }
 
+    public function company() {
+        return $this->hasOne('App\Company');
+    }
+
     public function watch_log() {
         return $this->hasMany('App\WatchLog');
     }

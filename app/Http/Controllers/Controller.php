@@ -14,20 +14,19 @@ class Controller extends BaseController
 
     public function validate_philanthropist() {
         $philanthropist_validator = Validator::make(request()->all(), [
-            'user_id' => ['required', 'integer', 'max:255', 'unique:philanthropists', 'unique:charities'],
-            'contact_number' => ['sometimes', 'integer', 'unique:philanthropists', 'unique:charities'],
-            'birthday' => ['sometimes', 'date'],
-            'sex' => ['sometimes', 'string'],
+            'user_id' => ['required', 'integer', 'max:255', 'unique:philanthropists', 'unique:charities', 'unique:companies'],
+            'contact_number' => ['required', 'integer', 'unique:philanthropists', 'unique:charities'],
         ]);
         
         if($philanthropist_validator->fails()) {
             return response(['errors' => $philanthropist_validator->errors()->all()]);
         }
+        return response(['success'=>true]);
     }
 
     public function validate_charity() {
         $charity_validator = Validator::make(request()->all(), [
-            'user_id' => ['required', 'integer', 'max:255', 'unique:philanthropists', 'unique:charities'],
+            'user_id' => ['required', 'integer', 'max:255', 'unique:philanthropists', 'unique:charities', 'unique:companies'],
             'contact_number' => ['required', 'integer', 'unique:charities', 'unique:philanthropists'],
             'organization' => ['required', 'string', 'max:225', 'unique:charities']
         ]);
@@ -43,30 +42,17 @@ class Controller extends BaseController
         $validator = Validator::make(request()->all(), [
             'role' => ['required', 'string', 'max:255'],
             'user_id' => ['required', 'integer', 'max:255'],
+            'contact_number' => ['required', 'integer', 'unique:philanthropists', 'unique:charities'],
         ]);
 
         if($validator->fails()) {
             return response(['errors' => $validator->errors()->all()]);
         }
 
-        if (request('role') == 'Philanthropist')
-        {
-            $philanthropist_validator = Validator::make(request()->all(), [
-                'user_id' => ['required', 'integer', 'max:255', 'unique:philanthropists', 'unique:charities'],
-                'contact_number' => ['sometimes', 'integer', 'unique:philanthropists', 'unique:charities'],
-                'birthday' => ['sometimes', 'date'],
-                'sex' => ['sometimes', 'string'],
-            ]);
-            
-            if($philanthropist_validator->fails()) {
-                return response(['errors' => $philanthropist_validator->errors()->all()]);
-            }
-        }
-        elseif (request('role') == 'Charity')
+        if (request('role') == 'Charity')
         {
             $charity_validator = Validator::make(request()->all(), [
-                'user_id' => ['required', 'integer', 'max:255', 'unique:philanthropists', 'unique:charities'],
-                'contact_number' => ['required', 'integer', 'unique:charities', 'unique:philanthropists'],
+                'user_id' => ['required', 'integer', 'max:255', 'unique:philanthropists', 'unique:charities', 'unique:companies'],
                 'organization' => ['required', 'string', 'max:225', 'unique:charities'], 
                 'account_name' => ['required', 'string', 'max:225', 'unique:charities'],
                 'account_number' => ['required', 'string', 'max:11', 'unique:charities'], 
@@ -107,6 +93,7 @@ class Controller extends BaseController
 
     public function set_up_philanthropist(\App\User $user)
     {
+        $user->update(['photo'=>request('photo')]);
         return $user->philanthropist()->create([
             'contact_number' => request('contact_number'),
             'birthday' => request('birthday'),
