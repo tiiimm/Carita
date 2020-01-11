@@ -18,8 +18,8 @@ class CreateCompanyAdvertisementsTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->string('advertisement');
             $table->string('advertisement_type');
-            $table->string('status');
             $table->integer('views')->default(0);
+            $table->string('status');
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

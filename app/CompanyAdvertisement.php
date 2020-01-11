@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CompanyAdvertisement extends Model
 {
     protected $fillable = [
-        'company_id', 'advertisement', 'advertisement_type', 'status', 'views'
+        'company_id', 'name', 'advertisement', 'advertisement_type', 'status', 'views', 'billing_date'
     ];
 
     public function company() {
