@@ -40,20 +40,20 @@ class CharityController extends Controller
 
     public function donate() {
         $user = \App\User::find(request('user_id'));
-        if (request('type') == 'Event') {
+        if (request('type') == 'App\CharityEvent') {
             \App\CharityEvent::find(request('watch_id'))->increment('points');
             $user->watch_log()->create([
                 'watchable_id' => request('watch_id'),
-                'watchable_type' => "Event",
+                'watchable_type' => request('type'),
                 'advertisable_id' => request('ad_id'),
                 'advertisable_type' => request('ad_type')
             ]);
         }
-        if (request('type') == 'Charity') {
+        if (request('type') == 'App\Charity') {
             \App\Charity::find(request('watch_id'))->increment('points');
             $user->watch_log()->create([
                 'watchable_id' => request('watch_id'),
-                'watchable_type' => "Charity",
+                'watchable_type' => request('type'),
                 'advertisable_id' => request('ad_id'),
                 'advertisable_type' => request('ad_type')
             ]);

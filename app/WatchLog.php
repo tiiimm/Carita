@@ -15,7 +15,7 @@ class WatchLog extends Model
     }
 
     public function charity() {
-        return $this->morphMany('App\Charity');
+        return $this->morphTo();
     }
 
     public function event() {

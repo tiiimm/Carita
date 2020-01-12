@@ -15,7 +15,7 @@ class Charity extends Model
     }
 
     public function watchable() {
-        return $this->morphTo();
+        return $this->morphMany('App\WatchLog', 'watchable');
     }
 
     public function achievements() {
