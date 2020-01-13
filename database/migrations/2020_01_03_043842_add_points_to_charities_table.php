@@ -15,6 +15,7 @@ class AddPointsToCharitiesTable extends Migration
     {
         Schema::table('charities', function (Blueprint $table) {
             $table->integer('points')->after('user_id');
+            $table->string('status')->after('points');
         });
     }
 
@@ -27,6 +28,7 @@ class AddPointsToCharitiesTable extends Migration
     {
         Schema::table('charities', function (Blueprint $table) {
             $table->dropColumn('points');
+            $table->dropColumn('status');
         });
     }
 }

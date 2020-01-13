@@ -19,7 +19,7 @@ class WatchLog extends Model
     }
 
     public function event() {
-        return $this->morphMany('App\Event');
+        return $this->morphTo();
     }
 
     public function advertisement() {

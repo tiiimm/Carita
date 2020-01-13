@@ -42,14 +42,15 @@ class LoginController extends Controller
     {
         $user_id = \App\User::where('email', request('email'))->value('id');
         $user = \App\User::find($user_id);
+
         if (!$user) {
             return ['error'=>'User not found'];
         }
         if (password_verify(request('password'), \App\User::where('email', request('email'))->value('password'))) {
             if ($user->role == "Charity")
-                $user->Charity;
+                $user->charity;
             if ($user->role == "Philanthropist")
-                $user->Philanthropist;
+                $user->philanthropist;
             return $user;
         }
         else

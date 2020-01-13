@@ -36,4 +36,8 @@ class CompanyController extends Controller
     public function get_advertisements() {
         return \App\CompanyAdvertisement::all();
     }
+
+    public function get_companies() {
+        return \App\Company::all();
+    }
 }

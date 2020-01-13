@@ -78,6 +78,7 @@ class Controller extends BaseController
     {
         return $user->charity()->create([
             'points' => 0,
+            'status'=>'Pending',
             'organization' => request('organization'),
             'contact_number' => request('contact_number'),
             'account_name' => request('account_name'),
@@ -103,5 +104,40 @@ class Controller extends BaseController
 
     public function get_profile() {
         return \App\Charity::where('user_id', request('user_id'))->first();
+    }
+
+    public function watch_count() {
+        return ['watch_count'=> \App\User::find(request('user_id'))->watch_log()->whereDate('created_at', now())->count()];
+    }
+
+    public function get_philanthropists() {
+        $philanthropists = \App\Philanthropist::all();
+        foreach($philanthropists as $philanthropist) {
+            $philanthropist->user;
+        }
+        return $philanthropists;
+    }
+
+    public function create_user() {
+        $validator = Validator::make(request()->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()]);
+        }
+
+        return \App\User::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'username' => request('username'),
+            'points' => 0,
+            'photo' => '',
+            'role' => request('role'),
+            'password' => bcrypt(request('password')),
+        ]);
     }
 }
