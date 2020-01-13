@@ -51,6 +51,8 @@ class LoginController extends Controller
                 $user->charity;
             if ($user->role == "Philanthropist")
                 $user->philanthropist;
+            if ($user->role == "Company")
+                $user->company;
             return $user;
         }
         else

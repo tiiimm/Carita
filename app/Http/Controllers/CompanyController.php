@@ -34,10 +34,22 @@ class CompanyController extends Controller
     }
 
     public function get_advertisements() {
-        return \App\CompanyAdvertisement::all();
+        return \App\CompanyAdvertisement::where('status', '<>', 'Inactive')->get();
+    }
+
+    public function get_active_advertisements() {
+        return \App\CompanyAdvertisement::where('status', 'Active')->get();
     }
 
     public function get_companies() {
-        return \App\Company::all();
+        return \App\Company::where('status', '<>', 'Inactive')->get();
+    }
+
+    public function approve_company() {
+        \App\Company::find(request('id'))->update(['status'=>'Active']);
+    }
+
+    public function delete_company() {
+        \App\Company::find(request('id'))->update(['status'=>'Inactive']);
     }
 }

@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 Route::POST('/register', 'Auth\RegisterController@validator');
 Route::POST('/login', 'Auth\LoginController@login');
+Route::POST('/change_password', 'Controller@change_password');
 Route::POST('/create_user', 'Controller@create_user');
 Route::POST('/set_up', 'Controller@set_up');
 Route::POST('/set_up_company', 'CompanyController@set_up_company');
@@ -25,6 +26,9 @@ Route::POST('/upload_event', 'CharityController@upload_event');
 Route::POST('/upload_advertisement', 'CompanyController@upload_advertisement');
 Route::POST('/donate', 'CharityController@donate');
 Route::POST('/approve_charity', 'CharityController@approve_charity');
+Route::POST('/delete_charity', 'CharityController@delete_charity');
+Route::POST('/approve_company', 'CompanyController@approve_company');
+Route::POST('/delete_company', 'CompanyController@delete_company');
 
 Route::GET('/get_profile', 'Controller@get_profile');
 Route::GET('/get_own_achievements', 'CharityController@get_own_achievements');
@@ -33,6 +37,7 @@ Route::GET('/get_own_advertisements', 'CompanyController@get_own_advertisements'
 Route::GET('/get_achievements', 'CharityController@get_achievements');
 Route::GET('/get_events', 'CharityController@get_events');
 Route::GET('/get_advertisements', 'CompanyController@get_advertisements');
+Route::GET('/get_active_advertisements', 'CompanyController@get_active_advertisements');
 Route::GET('/get_charities', 'CharityController@get_charities');
 Route::GET('/get_active_charities', 'CharityController@get_active_charities');
 Route::GET('/get_companies', 'CompanyController@get_companies');

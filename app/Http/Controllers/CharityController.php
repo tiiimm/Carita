@@ -35,7 +35,7 @@ class CharityController extends Controller
     }
 
     public function get_charities() {
-        return \App\Charity::all();
+        return \App\Charity::where('status', '<>', 'Inactive')->get();
     }
 
     public function get_active_charities() {
@@ -72,5 +72,9 @@ class CharityController extends Controller
 
     public function approve_charity() {
         \App\Charity::find(request('id'))->update(['status'=>'Active']);
+    }
+
+    public function delete_charity() {
+        \App\Charity::find(request('id'))->update(['status'=>'Inactive']);
     }
 }

@@ -140,4 +140,12 @@ class Controller extends BaseController
             'password' => bcrypt(request('password')),
         ]);
     }
+
+    public function change_password() {
+        $user = \App\User::find(request('user_id'));
+        if (password_verify(request('old_password'), $user->password)) {
+            $user->update(['password'=>bcrypt(request('new_password'))]);
+        }
+        else return ['error'=>'Incorrect old password'];
+    }
 }
