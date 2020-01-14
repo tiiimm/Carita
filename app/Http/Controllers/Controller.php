@@ -174,5 +174,8 @@ class Controller extends BaseController
                 'password' => bcrypt(request('password')),
             ]);
         }
+        else {
+            return $user;
+        }
     }
 }
