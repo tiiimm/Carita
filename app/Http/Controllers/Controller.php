@@ -149,4 +149,30 @@ class Controller extends BaseController
         }
         else return ['error'=>'Incorrect old password'];
     }
+
+    public function google_signup() {
+        $user = \App\User::where('google_id', request('google_id'))->first();
+        if (is_null($user)) {
+            $validator = Validator::make(request()->all(), [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'username' => ['required', 'string', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+
+            if($validator->fails()) {
+                return response(['errors' => $validator->errors()->all()]);
+            }
+
+            return \App\User::create([
+                'name' => request('name'),
+                'email' => request('email'),
+                'username' => request('username'),
+                'points' => 0,
+                'photo' => request('photo'),
+                'google_id' => request('google_id'),
+                'password' => Hash::make(request('password')),
+            ]);
+        }
+    }
 }

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::POST('/register', 'Auth\RegisterController@validator');
+Route::POST('/google_signup', 'Controller@google_signup');
 Route::POST('/login', 'Auth\LoginController@login');
 Route::POST('/change_password', 'Controller@change_password');
 Route::POST('/create_user', 'Controller@create_user');
