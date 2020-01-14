@@ -33,7 +33,7 @@ class CharityController extends Controller
     }
 
     public function get_own_events() {
-        return \App\User::find(request('user_id'))->charity->events;
+        return \App\User::find(request('user_id'))->charity->events()->whereDate('created_at', '>', now())->get();
     }
 
     public function get_achievements() {
