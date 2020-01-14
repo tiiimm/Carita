@@ -40,7 +40,7 @@ class CharityController extends Controller
     }
 
     public function get_events() {
-        return CharityEvent::whereDate('created_at', '>', now())->get();
+        return \App\CharityEvent::whereDate('created_at', '>', now())->get();
     }
 
     public function get_charities() {
