@@ -60,4 +60,8 @@ class CompanyController extends Controller
     public function delete_advertisement() {
         \App\CompanyAdvertisement::find(request('id'))->update(['status'=>'Inactive']);
     }
+
+    public function get_views() {
+        return \App\WatchLog::where('advertisable_id', request('id'))->get();
+    }
 }

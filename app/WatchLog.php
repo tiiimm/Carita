@@ -23,6 +23,6 @@ class WatchLog extends Model
     }
 
     public function advertisement() {
-        return $this->morphMany('App\CompanyAdvertisement');
+        return $this->morphTo();
     }
 }

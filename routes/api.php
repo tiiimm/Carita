@@ -45,8 +45,10 @@ Route::GET('/get_active_charities', 'CharityController@get_active_charities');
 Route::GET('/get_companies', 'CompanyController@get_companies');
 Route::GET('/get_philanthropists', 'Controller@get_philanthropists');
 Route::GET('/get_donations', 'WatchLogController@get_donations');
+Route::GET('/get_admin_donations', 'WatchLogController@get_admin_donations');
 Route::GET('/get_supports', 'WatchLogController@get_supports');
 Route::GET('/watch_count', 'Controller@watch_count');
+Route::GET('/get_views', 'CompanyController@get_views');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

@@ -242,103 +242,51 @@ class WatchLogController extends Controller
     public function get_admin_donations()
     {
         try {
-            $inputs = array();
-            $inputs = file_get_contents('php://input');
-            $inputs = json_decode($inputs);
-
             $january = WatchLog::whereMonth('created_at', '1')
-            ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '1')
             ->whereYear('created_at', request('year'))
             ->count();      
 
             $february = WatchLog::whereMonth('created_at', '2')
             ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '2')
-            ->whereYear('created_at', request('year'))
             ->count();      
 
             $march = WatchLog::whereMonth('created_at', '3')
-            ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '3')
             ->whereYear('created_at', request('year'))
             ->count();      
 
             $april = WatchLog::whereMonth('created_at', '4')
             ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '4')
-            ->whereYear('created_at', request('year'))
             ->count();      
 
             $may = WatchLog::whereMonth('created_at', '5')
-            ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '5')
             ->whereYear('created_at', request('year'))
             ->count();      
 
             $june = WatchLog::whereMonth('created_at', '6')
             ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '6')
-            ->whereYear('created_at', request('year'))
             ->count();      
 
             $july = WatchLog::whereMonth('created_at', '7')
-            ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '7')
             ->whereYear('created_at', request('year'))
             ->count();      
 
             $august = WatchLog::whereMonth('created_at', '8')
             ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '8')
-            ->whereYear('created_at', request('year'))
             ->count();      
 
             $september = WatchLog::whereMonth('created_at', '9')
-            ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '9')
             ->whereYear('created_at', request('year'))
             ->count();      
 
             $october = WatchLog::whereMonth('created_at', '10')
             ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '10')
-            ->whereYear('created_at', request('year'))
             ->count();      
 
             $november = WatchLog::whereMonth('created_at', '11')
             ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '11')
-            ->whereYear('created_at', request('year'))
             ->count();      
 
             $december = WatchLog::whereMonth('created_at', '12')
-            ->whereYear('created_at', request('year'))
-            ->count() 
-            + 
-            EventWatchLog::whereMonth('created_at', '12')
             ->whereYear('created_at', request('year'))
             ->count();   
             

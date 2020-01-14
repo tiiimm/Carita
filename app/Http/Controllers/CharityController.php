@@ -27,11 +27,20 @@ class CharityController extends Controller
     }
 
     public function get_achievements() {
-        return \App\CharityAchievement::all();
+        $arri = [];
+        $achievements = \App\CharityAchievement::all();
+        foreach ($achievements as $achievement) {
+            array_push($arri, $achievement);
+        }
+        $events = \App\CharityEvent::select('id', 'charity_id', 'title', 'description', 'venue', 'photo', 'held_on_from', 'held_on_to', 'created_at', 'updated_at')->whereDate('created_at', '<=', now())->get();
+        foreach ($events as $event) {
+            array_push($arri, $event);
+        }
+        return $arri;
     }
 
     public function get_events() {
-        return \App\CharityEvent::all();
+        return CharityEvent::whereDate('created_at', '>', now())->get();
     }
 
     public function get_charities() {

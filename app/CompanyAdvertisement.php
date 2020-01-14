@@ -15,6 +15,6 @@ class CompanyAdvertisement extends Model
     }
 
     public function advertisable() {
-        return $this->morphTo();
+        return $this->morphMany('App\WatchLog', 'advertisable');
     }
 }
