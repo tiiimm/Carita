@@ -39,7 +39,7 @@ class CharityController extends Controller
                 $event->user_id = $event->charity->user->id;
             }
         }
-        return $event;
+        return $events;
     }
 
     public function get_achievements() {
