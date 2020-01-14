@@ -169,6 +169,7 @@ class Controller extends BaseController
                 'email' => request('email'),
                 'username' => request('username'),
                 'points' => 0,
+                'role' => "",
                 'photo' => request('photo'),
                 'google_id' => request('google_id'),
                 'password' => bcrypt(request('password')),
