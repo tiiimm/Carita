@@ -171,7 +171,7 @@ class Controller extends BaseController
                 'points' => 0,
                 'photo' => request('photo'),
                 'google_id' => request('google_id'),
-                'password' => Hash::make(request('password')),
+                'password' => bcrypt(request('password')),
             ]);
         }
     }
