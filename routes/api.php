@@ -29,6 +29,8 @@ Route::POST('/approve_charity', 'CharityController@approve_charity');
 Route::POST('/delete_charity', 'CharityController@delete_charity');
 Route::POST('/approve_company', 'CompanyController@approve_company');
 Route::POST('/delete_company', 'CompanyController@delete_company');
+Route::POST('/approve_advertisement', 'CompanyController@approve_advertisement');
+Route::POST('/delete_advertisement', 'CompanyController@delete_advertisement');
 
 Route::GET('/get_profile', 'Controller@get_profile');
 Route::GET('/get_own_achievements', 'CharityController@get_own_achievements');

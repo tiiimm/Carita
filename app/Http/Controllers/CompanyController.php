@@ -52,4 +52,12 @@ class CompanyController extends Controller
     public function delete_company() {
         \App\Company::find(request('id'))->update(['status'=>'Inactive']);
     }
+
+    public function approve_advertisement() {
+        \App\CompanyAdvertisement::find(request('id'))->update(['status'=>'Active']);
+    }
+
+    public function delete_advertisement() {
+        \App\CompanyAdvertisement::find(request('id'))->update(['status'=>'Inactive']);
+    }
 }
