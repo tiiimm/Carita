@@ -36,7 +36,7 @@ class CharityController extends Controller
         $events = \App\User::find(request('user_id'))->charity->events()->whereDate('held_on_from', '>', now())->get();
         if (!$events->isEmpty()){
             foreach ($events as $event) {
-                $event->charity->user->id;
+                $event->charity;
             }
         }
         return $events;
@@ -59,7 +59,7 @@ class CharityController extends Controller
         $events = \App\CharityEvent::whereDate('held_on_from', '>', now())->get();
         if (!$events->isEmpty()){
             foreach ($events as $event) {
-                $event->charity->user->id;
+                $event->charity;
             }
         }
         return $events;
