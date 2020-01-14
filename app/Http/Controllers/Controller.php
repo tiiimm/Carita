@@ -176,6 +176,12 @@ class Controller extends BaseController
             ]);
         }
         else {
+            if ($user->role == "Charity")
+                $user->charity;
+            if ($user->role == "Philanthropist")
+                $user->philanthropist;
+            if ($user->role == "Company")
+                $user->company;
             return $user;
         }
     }
