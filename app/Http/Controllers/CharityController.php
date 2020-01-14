@@ -19,7 +19,17 @@ class CharityController extends Controller
         return ['success' => true];
     }
     public function get_own_achievements() {
-        return \App\User::find(request('user_id'))->charity->achievements;
+        $user = \App\User::find(request('user_id'))->charity;
+        $arri = [];
+        $achievements = $user->achievements;
+        foreach ($achievements as $achievement) {
+            array_push($arri, $achievement);
+        }
+        $events = $user->events()->whereDate('created_at', '<=', now())->get();
+        foreach ($events as $event) {
+            array_push($arri, $event);
+        }
+        return $arri;
     }
 
     public function get_own_events() {

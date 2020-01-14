@@ -145,6 +145,7 @@ class Controller extends BaseController
         $user = \App\User::find(request('user_id'));
         if (password_verify(request('old_password'), $user->password)) {
             $user->update(['password'=>bcrypt(request('new_password'))]);
+            return 1;
         }
         else return ['error'=>'Incorrect old password'];
     }
