@@ -48,7 +48,7 @@ class CharityController extends Controller
         foreach ($achievements as $achievement) {
             array_push($arri, $achievement);
         }
-        $events = \App\CharityEvent::select('id', 'charity_id', 'title', 'description', 'venue', 'photo', 'held_on_from', 'held_on_to', 'created_at', 'updated_at')->whereDate('held_on_from', '<=', now())->get();
+        $events = \App\CharityEvent::whereDate('held_on_from', '<=', now())->get();
         foreach ($events as $event) {
             array_push($arri, $event);
         }
