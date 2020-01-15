@@ -34,7 +34,7 @@ class CompanyController extends Controller
     }
 
     public function get_advertisements() {
-        return \App\CompanyAdvertisement::where('status', '<>', 'Inactive')->get();
+        return \App\CompanyAdvertisement::all();
     }
 
     public function get_active_advertisements() {
