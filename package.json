@@ -16,6 +16,16 @@
         "lodash": "^4.17.13",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
-        "sass-loader": "^7.1.0"
+        "sass-loader": "^7.1.0",
+        "vue-template-compiler": "^2.6.11"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.12.1",
+        "@mdi/font": "^4.9.95",
+        "cloudinary-vue": "^1.0.0",
+        "sweetalert2": "^9.8.2",
+        "vue-progressbar": "^0.7.5",
+        "vue-router": "^3.1.6",
+        "vuetify": "^2.2.15"
     }
 }
