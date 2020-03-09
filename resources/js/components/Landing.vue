@@ -4,8 +4,8 @@
     export default {
         data(){
             return {
-                email : "",
-                genealogyCount: 0,
+                // email : "",
+                // genealogyCount: 0,
             }
         },
         computed: {
@@ -23,22 +23,22 @@
             handleSubmit(){
                 
             },
-            getCount(){
-                axios.get('api/genealogy-count')
-                .then( response => {
-                    this.genealogyCount = response.data
-                })
-                .catch( error => {})
-                .finally( x => {
-                })
-            },
+            // getCount(){
+            //     axios.get('api/genealogy-count')
+            //     .then( response => {
+            //         this.genealogyCount = response.data
+            //     })
+            //     .catch( error => {})
+            //     .finally( x => {
+            //     })
+            // },
         },
         created() {
-            this.getCount();
-            const that = this;
-            setInterval(function() {
-                that.genealogyCount += 1;
-            }, 3000);
+            // this.getCount();
+            // const that = this;
+            // setInterval(function() {
+            //     that.genealogyCount += 1;
+            // }, 3000);
         }
     }
 </script>

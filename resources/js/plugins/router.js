@@ -7,11 +7,14 @@ import Landing from '../components/Landing.vue'
 // import About from '../components/Main/About.vue'
 import Signin from '../components/Sign-in.vue'
 // import Signup from '../components/Sign-up.vue'
-// import Home from '../components/Main/Home.vue'
+import Home from '../components/Home.vue'
 
 // // Home
 // import Profile from '../components/Home/Profile.vue'
-// import Dashboard from '../components/Home/Dashboard.vue'
+import Dashboard from '../components/Dashboard.vue'
+import Charities from '../components/Charities.vue'
+import Companies from '../components/Companies.vue'
+import Philanthropists from '../components/Philanthropists.vue'
 // import DashboardAccount from '../components/Home/DashboardAccount.vue'
 // import Genealogy from '../components/Home/Genealogy.vue'
 // import Notifications from '../components/Home/Notification.vue'
@@ -70,35 +73,29 @@ const routes = [
             // { path: '/sign-up', name: 'Signup', components: {main: Signup}},
         ]
     },
-    // {
-    //     path: '/home', name: 'home', component: Home,
-    //     beforeEnter(to, from, next) {
-    //         if(sessionStorage.getItem('user-type') == 'Partnered Establishment') {
-    //             next({name: 'establishment'})
-    //         }
-    //         if(sessionStorage.getItem('user-type') == 'Cashier') {
-    //             next({name: 'cashier'})
-    //         }
-    //         next()
-    //     },
-    //     children: [
-    //         {path: '/profile', components: {home: Profile}},
-    //         {path: '/dashboard', components: {home: Dashboard}},
-    //         {path: '/dashboardaccount', components: {home: DashboardAccount}},
-    //         { path: '/genealogy', components: {home: Genealogy}},
-    //         { path: '/notifications', components: {home: Notifications}},
-    //         { path: '/rewards', components: {home: Reward}},
-    //         { path: '/keys', components: {home: Keys} },
-    //         { path: '/branches', components: {home: Branch} },
-    //         { path: '/visit_branch/', name: 'visit_branch', components: {home: VisitBranch} },
-    //         { path: '/inventory', components: {home: Inventory}},
-    //         { path: '/staffs', components: {home: Staff}},
-    //         { path: '/partnered-establishments', components: {home: PartneredEstablishment} },
-    //         { path: '/wallet', components: {home: Wallet}},
-    //         { path: '/sales', components: {home: Sales}},
-    //         { path: '/requests', components: {home: Requests}},
-    //     ]
-    // },
+    {
+        path: '/home', name: 'home', component: Home,
+        children: [
+            // {path: '/profile', components: {home: Profile}},
+            {path: '/dashboard', components: {home: Dashboard}},
+            {path: '/philanthropists', components: {home: Philanthropists}},
+            {path: '/charities', components: {home: Charities}},
+            {path: '/companies', components: {home: Companies}},
+            // {path: '/dashboardaccount', components: {home: DashboardAccount}},
+            // { path: '/genealogy', components: {home: Genealogy}},
+            // { path: '/notifications', components: {home: Notifications}},
+            // { path: '/rewards', components: {home: Reward}},
+            // { path: '/keys', components: {home: Keys} },
+            // { path: '/branches', components: {home: Branch} },
+            // { path: '/visit_branch/', name: 'visit_branch', components: {home: VisitBranch} },
+            // { path: '/inventory', components: {home: Inventory}},
+            // { path: '/staffs', components: {home: Staff}},
+            // { path: '/partnered-establishments', components: {home: PartneredEstablishment} },
+            // { path: '/wallet', components: {home: Wallet}},
+            // { path: '/sales', components: {home: Sales}},
+            // { path: '/requests', components: {home: Requests}},
+        ]
+    },
 ]
 
 const opts = {

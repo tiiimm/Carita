@@ -16,9 +16,9 @@
                                 <v-img src="img/Logo.png"></v-img>
                             </v-layout> -->
                             <v-card-text>
-                                    <!-- Username -->
+                                    <!-- Email -->
                                     <v-flex xs12 md12>
-                                        <v-text-field light color="primary" outlined label="Username" v-model="email" required prepend-inner-icon="fa-user-circle" autofocus/>
+                                        <v-text-field light color="primary" outlined label="Email" v-model="email" required prepend-inner-icon="fa-user-circle" autofocus/>
                                     </v-flex>
                                     <!-- Password -->
                                     <v-flex xs12 md12>
@@ -53,41 +53,37 @@
                 this.loading = true
                 this.$Progress.start();
                 axios.post('api/login', {
-                    username: this.email, password: this.password
+                    email: this.email, password: this.password
                 })
                 .then( response => {
-                    // Create a local storage item
-                    sessionStorage.setItem('user-token', response.data.success.token)
-                    sessionStorage.setItem('user-code', response.data.success.information.code)
-                    sessionStorage.setItem('user-type', response.data.success.information.type)
-                    swal.fire({
-                        position: 'top-end',
-                        toast: true,
-                        type: 'success',
-                        title: 'Successfully Logined',
-                        showConfirmButton: false,
-                        timer: 1500,
-                        onClose: () => {
-                            // Redirect user
-                            this.$Progress.finish();
-                            this.loading = false
-                            if(sessionStorage.getItem('user-type') == 'Administrator' || sessionStorage.getItem('user-type') == 'Root'){
-                                this.$router.push('genealogy')
-                            }
-                            else if(sessionStorage.getItem('user-type') == 'Branch'){
-                                this.$router.push('inventory')
-                            }
-                            else{
+                    this.$Progress.finish();
+                    this.loading = false
+                    if(response.data.role == 'Administrator'){
+                        swal.fire({
+                            position: 'top-end',
+                            toast: true,
+                            type: 'success',
+                            title: 'Successfully Logined',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            onClose: () => {
                                 this.$router.push('dashboard')
                             }
-                        }
 
-                    })
+                        })
+                        sessionStorage.setItem('user-type', response.data.role)
+                    }
+                    else{
+                        this.$Progress.fail();
+                        swal.fire("Failed!",
+                        "Incorrect Email/Password",
+                        "error")
+                    }
                 })
                 .catch( error => {
                     this.$Progress.fail();
                     swal.fire("Failed!",
-                    "Incorrect Username/Password",
+                    "Incorrect Email/Password",
                     "error")
                 })
             }
@@ -96,9 +92,8 @@
 
         },
         beforeRouteEnter (to, from, next) {
-            if (sessionStorage.getItem('user-code')) {
-                
-                return next('dashboard');
+            if (sessionStorage.getItem('user-type')) {
+                alert('hoy')
             }
             else{
                 next();
