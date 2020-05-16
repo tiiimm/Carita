@@ -27,7 +27,7 @@
 
                                     <v-row justify="center">
                                         <v-col xs="12" md="12" justify="center">
-                                            <v-btn pa-1 block x-large rounded color="primary" class="white--text" @click="login">SIGN-IN</v-btn>
+                                            <v-btn pa-1 block x-large rounded color="primary" class="white--text" @click="login">SIfGN-IN</v-btn>
                                         </v-col>
                                     </v-row>
                             </v-card-text>
@@ -71,7 +71,8 @@
                             }
 
                         })
-                        sessionStorage.setItem('user-type', response.data.role)
+                        localStorage.setItem('user-type', response.data.role)
+                        localStorage.setItem('token', response.data.token)
                     }
                     else{
                         this.$Progress.fail();
@@ -92,7 +93,7 @@
 
         },
         beforeRouteEnter (to, from, next) {
-            if (sessionStorage.getItem('user-type')) {
+            if (localStorage.getItem('user-type')) {
                 alert('hoy')
             }
             else{

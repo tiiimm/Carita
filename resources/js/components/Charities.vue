@@ -12,11 +12,17 @@
                             Add Charity
                         </v-btn>
                     </v-card-title>
-                    <v-data-table :headers="headers" :items="charities" :search="search">
+                    <v-data-table :headers="headers" :items="charities" :search="search" :loading="loading">
                         <template v-slot:item.id="{ item }">
                             {{ charities.map(function(x) {return x.id; }).indexOf(item.id) + 1}}
                         </template>
                         <template v-slot:item.actions="{ item }">
+                            <v-icon medium color="green" @click="approve_charity(item)" v-if="item.status=='Pending'">
+                                fa-check
+                            </v-icon>
+                            <v-icon medium color="red" @click="reject_charity(item)" v-if="item.status=='Pending'">
+                                fa-times
+                            </v-icon>
                             <v-icon medium color="blue" @click="open_update_charity_dialog(item)">
                                 fa-pen
                             </v-icon>
@@ -68,6 +74,7 @@
         data: () => ({
             charity_dialog: false,
             edit_mode: false,
+            loading: false,
             search: '',
             charities: [],
             charity_details: {
@@ -80,12 +87,14 @@
             },
             headers: [
                 {text: '#', value: 'id'},
-                {text: 'Name', value: 'organization'},
-                {text: 'Contact Number', value: 'contact_number'},
+                {text: 'Name', value: 'name'},
+                {text: 'Address', value: 'user.address'},
+                {text: 'Contact Number', value: 'user.contact_number'},
+                {text: 'Handler Name', value: 'user.name'},
+                {text: 'Handler Email', value: 'user.email'},
                 {text: 'Status', value: 'status'},
                 {text: 'Points', value: 'points'},
-                {text: 'Handler', value: 'user_id'},
-                {text: 'Actions', value: 'actions', sortable: false},
+                {text: 'Actions', value: 'actions', align: 'right', sortable: false},
             ],
         }),
         methods: {
@@ -112,6 +121,28 @@
                     role: 'Charity',
                     password: '123456789'
                 }
+            },
+            approve_charity(item) {
+                axios.put('/api/approve-charity/' + item.id).then(response => {
+                    swal.fire(
+                        'Success!',
+                        'Successfully approved charity',
+                        'success'
+                    )
+                    this.get_charities()
+                    this.reset_data()
+                })
+            },
+            reject_charity(item) {
+                axios.put('/api/reject-charity/' + item.id).then(response => {
+                    swal.fire(
+                        'Success!',
+                        'Successfully rejected charity',
+                        'success'
+                    )
+                    this.get_charities()
+                    this.reset_data()
+                })
             },
             add_charity() {
                 axios.post('/api/create_user',{
@@ -152,7 +183,7 @@
                 })
             },
             get_charities() {
-                axios.get('/api/get_charities').then(response => {
+                axios.get('/api/charities').then(response => {
                     this.charities = response.data
                 })
             }
@@ -161,7 +192,7 @@
             this.get_charities()
         },
         beforeRouteEnter (to, from, next) {
-            // if(sessionStorage.getItem('user-type') != 'Branch'){
+            // if(localStorage.getItem('user-type') != 'Branch'){
             //     return next('dashboard')
             // }
             next();

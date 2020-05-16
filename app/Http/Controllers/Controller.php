@@ -7,6 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\Request;
 
 class Controller extends BaseController
 {
@@ -74,34 +75,6 @@ class Controller extends BaseController
             return $this->set_up_philanthropist($user);
     }
 
-    public function set_up_charity(\App\User $user)
-    {
-        return $user->charity()->create([
-            'points' => 0,
-            'status'=>'Pending',
-            'organization' => request('organization'),
-            'contact_number' => request('contact_number'),
-            'account_name' => request('account_name'),
-            'account_number' => request('account_number'),
-            'bank' => request('bank'),
-            'address' => request('address'),
-            'photo' => request('photo'),
-            'description' => request('description'),
-            'bio_path' => request('bio_path'),
-            'bio_path_type' => request('bio_path_type')
-        ]);
-    }
-
-    public function set_up_philanthropist(\App\User $user)
-    {
-        $user->update(['photo'=>request('photo')]);
-        return $user->philanthropist()->create([
-            'contact_number' => request('contact_number'),
-            'birthday' => request('birthday'),
-            'sex' => request('sex')
-        ]);
-    }
-
     public function get_profile() {
         return \App\Charity::where('user_id', request('user_id'))->first();
     }
@@ -110,19 +83,10 @@ class Controller extends BaseController
         return ['watch_count'=> \App\User::find(request('user_id'))->watch_log()->whereDate('created_at', now())->count()];
     }
 
-    public function get_philanthropists() {
-        $philanthropists = \App\Philanthropist::all();
-        foreach($philanthropists as $philanthropist) {
-            $philanthropist->user;
-        }
-        return $philanthropists;
-    }
-
     public function create_user() {
         $validator = Validator::make(request()->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
@@ -133,18 +97,15 @@ class Controller extends BaseController
         return \App\User::create([
             'name' => request('name'),
             'email' => request('email'),
-            'username' => request('username'),
-            'points' => 0,
-            'photo' => '',
+            'password' => request('password'),
             'role' => request('role'),
-            'password' => bcrypt(request('password')),
         ]);
     }
 
     public function change_password() {
         $user = \App\User::find(request('user_id'));
         if (password_verify(request('old_password'), $user->password)) {
-            $user->update(['password'=>bcrypt(request('new_password'))]);
+            $user->update(['password'=>request('new_password')]);
             return 1;
         }
         else return ['error'=>'Incorrect old password'];
@@ -156,7 +117,6 @@ class Controller extends BaseController
             $validator = Validator::make(request()->all(), [
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'username' => ['required', 'string', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
 
@@ -164,16 +124,15 @@ class Controller extends BaseController
                 return response(['errors' => $validator->errors()->all()]);
             }
 
-            return \App\User::create([
+            $user = \App\User::create([
                 'name' => request('name'),
                 'email' => request('email'),
-                'username' => request('username'),
-                'points' => 0,
-                'role' => "",
-                'photo' => request('photo'),
+                'password' => request('password'),
                 'google_id' => request('google_id'),
-                'password' => bcrypt(request('password')),
             ]);
+
+            $user['token']=$user->createToken('Laravel Password Grant Client')->accessToken;
+            return $user;
         }
         else {
             if ($user->role == "Charity")
@@ -182,7 +141,18 @@ class Controller extends BaseController
                 $user->philanthropist;
             if ($user->role == "Company")
                 $user->company;
+
+            $user['token']=$user->createToken('Laravel Password Grant Client')->accessToken;
             return $user;
         }
+    }
+
+    public function logout (Request $request) {
+        return $request->user();
+        $token = $request->user()->token();
+        $token->revoke();
+    
+        $response = 'You have been succesfully logged out!';
+        return response($response, 200);
     }
 }

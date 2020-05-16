@@ -20,10 +20,10 @@ class CreateCharityEventsTable extends Migration
             $table->string('description');
             $table->string('venue');
             $table->string('photo');
-            $table->integer('points');
+            $table->integer('points')->default(0);
             $table->date('held_on_from');
             $table->date('held_on_to');
-            $table->date('open_from');
+            $table->date('open_from')->default(now());
             $table->date('open_to');
             $table->timestamps();
             

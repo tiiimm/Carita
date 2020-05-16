@@ -9,3 +9,13 @@ const app = new Vue({
     vuetify,
     router,
 }).$mount('#app')
+
+axios.interceptors.request.use(function (config) {
+    let authToken = localStorage.getItem('token') || ''
+    if (authToken) {
+        config.headers['Authorization'] = `Bearer ${authToken}`
+    }   
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});

@@ -53,6 +53,9 @@ class LoginController extends Controller
                 $user->philanthropist;
             if ($user->role == "Company")
                 $user->company;
+
+                
+            $user['token']=$user->createToken('Laravel Password Grant Client')->accessToken;
             return $user;
         }
         else

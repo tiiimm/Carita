@@ -16,9 +16,10 @@ class CreatePhilanthropistsTable extends Migration
         Schema::create('philanthropists', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->string('contact_number')->nullable();
-            $table->string('birthday')->nullable();
-            $table->string('sex')->nullable();
+            $table->string('username')->unique();
+            $table->string('profile_picture');
+            $table->string('birthday')->default('');
+            $table->string('sex')->default('');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

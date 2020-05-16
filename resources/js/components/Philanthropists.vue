@@ -175,7 +175,7 @@
             this.get_philanthropists()
         },
         beforeRouteEnter (to, from, next) {
-            // if(sessionStorage.getItem('user-type') != 'Branch'){
+            // if(localStorage.getItem('user-type') != 'Branch'){
             //     return next('dashboard')
             // }
             next();

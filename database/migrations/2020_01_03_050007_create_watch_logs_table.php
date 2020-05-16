@@ -17,6 +17,7 @@ class CreateWatchLogsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->morphs('watchable');
+            $table->morphs('advertisable');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

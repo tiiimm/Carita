@@ -1,3 +1,39 @@
+#Hero {
+  background: url(../img/Landing.png) top center;
+  background-size: cover;
+}
+
+@media (min-width: 1024px) {
+  #Hero {
+    background-attachment: relative;
+  }
+}
+
+@media (max-width: 768px) {
+  #Hero {
+    background: #ffffff;
+    background-attachment: relative;
+  }
+}
+
+.hero-container {
+  height: 100vh;
+}
+
+.hero-height{
+  height: 80vh;
+}
+
+#timeline{
+  background: url(../img/green.jpg) top center;
+  background-size: cover;
+}
+
+#video{
+  background: url(../img/green.jpg) top center;
+  background-size: cover;
+}
+
 .fullscreen{
   height: 100vh;
   width: 100vw;

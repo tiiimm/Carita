@@ -6,6 +6,8 @@ import 'vuetify/dist/vuetify.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import VueProgressBar from 'vue-progressbar'
 import Cloudinary from 'cloudinary-vue';
+
+Vue.use(require('vue-moment'));
 Vue.use(Cloudinary, {
   configuration: {
     cloudName: "tim0923"
@@ -34,8 +36,8 @@ const opts = {
     theme: {
         themes: {
             light: {
-                primary: '#5B4D68',
-                secondary: '#9b1c31',
+                primary: '#6159E5',
+                secondary: '#867EFF',
                 accent: '#f55536',
             },
         }

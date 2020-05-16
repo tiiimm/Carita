@@ -14,12 +14,8 @@ class UsersTableSeeder extends Seeder
         \App\User::create([
             'name'=>'Admin',
             'email'=>'admin@me.com',
-            'username'=>'admin',
-            'photo'=>'carita/profile_picture.png',
-            'password'=>bcrypt('aaaaaaaa'),
+            'password'=>'123456789',
             'role'=>"Administrator",
-            'points'=>0,
-            
         ]);
     }
 }

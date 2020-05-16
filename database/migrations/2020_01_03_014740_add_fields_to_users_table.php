@@ -14,10 +14,11 @@ class AddFieldsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->unique()->after('email');
-            $table->string('role')->after('username');
-            $table->integer('points')->after('role');
-            $table->string('photo')->after('points');
+            $table->string('google_id')->after('email')->default('');
+            $table->string('role')->after('google_id')->default('none');
+            $table->integer('points')->after('role')->default(0);
+            $table->string('address')->after('points')->default('');
+            $table->string('contact_number')->after('address')->default('');
         });
     }
 
@@ -29,10 +30,11 @@ class AddFieldsToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('username');
+            $table->dropColumn('google_id');
             $table->dropColumn('role');
             $table->dropColumn('points');
-            $table->dropColumn('photo');
+            $table->dropColumn('address');
+            $table->dropColumn('contact_number');
         });
     }
 }

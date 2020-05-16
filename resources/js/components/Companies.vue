@@ -16,13 +16,23 @@
                         <template v-slot:item.id="{ item }">
                             {{ companies.map(function(x) {return x.id; }).indexOf(item.id) + 1}}
                         </template>
+                        <template v-slot:item.charity.name="{ item }">
+                            <span v-if="item.charity != undefined">{{item.charity.name}}</span>
+                            <span v-else>None</span>
+                        </template>
                         <template v-slot:item.actions="{ item }">
-                            <v-icon medium color="blue" @click="open_update_company_dialog(item)">
+                            <v-icon medium color="green" @click="approve_company(item)" v-if="item.status=='Pending'">
+                                fa-check
+                            </v-icon>
+                            <v-icon medium color="red" @click="reject_company(item)" v-if="item.status=='Pending'">
+                                fa-times
+                            </v-icon>
+                            <!-- <v-icon medium color="blue" @click="open_update_company_dialog(item)">
                                 fa-pen
                             </v-icon>
                             <v-icon medium color="red" @click="delete_company(item)">
                                 fa-trash
-                            </v-icon>
+                            </v-icon> -->
                         </template>
                     </v-data-table>
                 </v-card>
@@ -96,12 +106,39 @@
             headers: [
                 {text: '#', value: 'id'},
                 {text: 'Name', value: 'name'},
+                {text: 'Address', value: 'user.address'},
+                {text: 'Contact Number', value: 'user.contact_number'},
+                {text: 'Partnered Charity', value: 'charity.name'},
+                {text: 'Handler Name', value: 'user.name'},
+                {text: 'Handler Email', value: 'user.email'},
                 {text: 'Status', value: 'status'},
-                {text: 'Handler', value: 'user_id'},
-                {text: 'Actions', value: 'actions', sortable: false},
+                {text: 'Points', value: 'points'},
+                {text: 'Actions', value: 'actions', align: 'right', sortable: false},
             ],
         }),
         methods: {
+            approve_company(item) {
+                axios.put('/api/approve-company/' + item.id).then(response => {
+                    swal.fire(
+                        'Success!',
+                        'Successfully approved company',
+                        'success'
+                    )
+                    this.get_companies()
+                    this.reset_data()
+                })
+            },
+            reject_company(item) {
+                axios.put('/api/reject-company/' + item.id).then(response => {
+                    swal.fire(
+                        'Success!',
+                        'Successfully rejected company',
+                        'success'
+                    )
+                    this.get_companies()
+                    this.reset_data()
+                })
+            },
             // open_update_company_dialog(item) {
             //     this.company_details = {
             //         id: item.id,
@@ -173,7 +210,7 @@
             this.get_companies()
         },
         beforeRouteEnter (to, from, next) {
-            // if(sessionStorage.getItem('user-type') != 'Branch'){
+            // if(localStorage.getItem('user-type') != 'Branch'){
             //     return next('dashboard')
             // }
             next();

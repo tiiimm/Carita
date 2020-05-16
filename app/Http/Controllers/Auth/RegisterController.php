@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -52,7 +51,6 @@ class RegisterController extends Controller
         $validator = Validator::make(request()->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
@@ -71,13 +69,13 @@ class RegisterController extends Controller
      */
     protected function create()
     {
-        return User::create([
+        $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
-            'username' => request('username'),
-            'points' => 0,
-            'photo' => '',
-            'password' => Hash::make(request('password')),
+            'password' => request('password'),
         ]);
+
+        $user['token']=$user->createToken('Laravel Password Grant Client')->accessToken;
+        return $user;
     }
 }

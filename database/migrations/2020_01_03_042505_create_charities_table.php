@@ -16,16 +16,16 @@ class CreateCharitiesTable extends Migration
         Schema::create('charities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->string('organization');
-            $table->string('contact_number');
-            $table->string('account_name');
-            $table->string('account_number');
-            $table->string('bank');
-            $table->string('address');
-            $table->string('photo');
+            $table->string('name')->unique();
+            $table->string('logo');
             $table->string('description');
-            $table->string('bio_path');
-            $table->string('bio_path_type');
+            $table->string('display')->default('');
+            $table->string('display_type')->default('');
+            $table->string('bank');
+            $table->string('account_name')->unique();
+            $table->string('account_number')->unique();
+            $table->string('status')->default('Pending');
+            $table->integer('points')->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
