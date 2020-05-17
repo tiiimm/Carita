@@ -15,11 +15,14 @@ use Illuminate\Http\Request;
 
 Route::POST('/register', 'Auth\RegisterController@validator');
 Route::POST('/login', 'Auth\LoginController@login');
-Route::GET('/feeds', 'CharityController@get_feeds');
+Route::POST('/google_signup', 'Controller@google_signup');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/logout', 'Controller@logout');
+    Route::put('/change-password', 'Controller@change_password');
+    Route::put('/update-profile', 'Controller@update_profile');
     Route::get('/user', function (Request $request) { return $request->user(); });
+    Route::get('/points', function (Request $request) { return $request->user()->points; });
 
 
     Route::POST('/create_user', 'Controller@create_user');
@@ -39,6 +42,8 @@ Route::middleware('auth:api')->group(function () {
     Route::PUT('/reject-company/{company}', 'CompanyController@reject_company');
 
 
+    Route::GET('/feeds', 'CharityController@get_feeds');
+    Route::GET('/get_supports/{charity}', 'CharityController@get_supports');
     Route::GET('/charities', 'CharityController@get_charities');
     Route::GET('/charity/{charity}', 'CharityController@show');
     Route::GET('/event/{event}', 'CharityController@show_event');
@@ -56,17 +61,19 @@ Route::middleware('auth:api')->group(function () {
     Route::DELETE('/charity', 'CharityController@delete_charity');
 
     
+    Route::GET('/get_points/{user}', 'PhilanthropistController@get_points');
     Route::GET('/get_philanthropists', 'PhilanthropistController@get_philanthropists');
     Route::POST('/set_up_philanthropist/{user}', 'PhilanthropistController@set_up_philanthropist');
     
+
     Route::GET('/payment-record/{advertisement}', 'CompanyAdvertisementPaymentController@get_payment_record');
-    Route::GET('/payment-record', 'CompanyAdvertisementPaymentController@get_payment_record_company');
+    Route::GET('/payment-record-company/{company}', 'CompanyAdvertisementPaymentController@get_payment_record_company');
     Route::POST('/payment', 'CompanyAdvertisementPaymentController@store');
 
     
 });
 
-// Route::POST('/google_signup', 'Controller@google_signup');
+// 
 //     Route::get('/logout', 'Controller@logout');
 //     Route::POST('/change_password', 'Controller@change_password');
 //     Route::POST('/validate_charity', 'Controller@validate_charity');

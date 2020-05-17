@@ -29,20 +29,20 @@
                     </v-list-item>
                     <v-list-item ripple="ripple" exact to="/advertisements">
                         <v-list-item-action>
-                            <v-icon>fa-building</v-icon>
+                            <v-icon>fa-play</v-icon>
                         </v-list-item-action>
                         <v-list-item-content>
                             <v-list-item-title class="subheading font-weight-regular">Advertisements</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item ripple="ripple" exact to="/keys">
+                    <!-- <v-list-item ripple="ripple" exact to="/keys">
                         <v-list-item-action>
                             <v-icon>fa-play</v-icon>
                         </v-list-item-action>
                         <v-list-item-content>
                             <v-list-item-title class="subheading font-weight-regular">Watch Record</v-list-item-title>
                         </v-list-item-content>
-                    </v-list-item>
+                    </v-list-item> -->
                     <v-list-item  ripple="ripple" @click="logout()">
                         <v-list-item-action >
                             <v-icon>fa-sign-out-alt</v-icon>
@@ -107,5 +107,11 @@
         },
         created() {
         },
+        beforeRouteEnter (to, from, next) {
+            if(!localStorage.getItem('user-type')){
+                return next('/sign-in')
+            }
+            next();
+        }
     }
 </script>

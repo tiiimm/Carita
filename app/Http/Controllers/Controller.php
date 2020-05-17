@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class Controller extends BaseController
 {
@@ -102,13 +103,29 @@ class Controller extends BaseController
         ]);
     }
 
-    public function change_password() {
-        $user = \App\User::find(request('user_id'));
-        if (password_verify(request('old_password'), $user->password)) {
-            $user->update(['password'=>request('new_password')]);
+    public function change_password(Request $request) {
+        if (password_verify(request('old_password'), $request->user()->password)) {
+            $request->user()->update(['password'=>request('new_password')]);
             return 1;
         }
-        else return ['error'=>'Incorrect old password'];
+        else return 'Incorrect old password';
+    }
+
+    public function update_profile(Request $request) {
+        $validator = Validator::make(request()->all(), [
+            'contact_number' => 'required|integer|'.Rule::unique('users')->ignore($request->user()->id),
+            'email' => 'required|string|email|max:255|'.Rule::unique('users')->ignore($request->user()->id),
+            'name' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:225'],
+        ]);
+        
+        if($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()]);
+        }
+
+        $request->user()->update($request->all());
+
+        return 1;
     }
 
     public function google_signup() {

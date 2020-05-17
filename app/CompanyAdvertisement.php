@@ -18,6 +18,10 @@ class CompanyAdvertisement extends Model
         return $this->belongsTo('App\Charity');
     }
 
+    public function watchable() {
+        return $this->morphMany('App\WatchLog', 'watchable');
+    }
+
     public function payment() {
         return $this->hasMany('App\CompanyAdvertisementPayment');
     }

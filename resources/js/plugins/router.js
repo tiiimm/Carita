@@ -27,7 +27,7 @@ const routes = [
     {
         path: '/home', name: 'home', component: Home,
         children: [
-            {path: '/dashboard', components: {home: Dashboard}},
+            // {path: '/dashboard', components: {home: Dashboard}},
             {path: '/philanthropists', components: {home: Philanthropists}},
             {path: '/charities', components: {home: Charities}},
             {path: '/companies', components: {home: Companies}},

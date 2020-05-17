@@ -4,13 +4,13 @@
             <v-container class="px-7">
                 <v-card>
                     <v-card-title>
-                        <v-icon class="mr-2" color="primary">fa-heart</v-icon>
+                        <v-icon class="mr-2" color="primary">fa-play</v-icon>
                         Advertisements
                         <v-spacer/>
                         <v-text-field class="mr-5" label="Search" v-model="search" prepend-inner-icon="fa-search"/>
-                        <v-btn outlined color="primary" @click.stop='advertisement_dialog = true'>
+                        <!-- <v-btn outlined color="primary" @click.stop='advertisement_dialog = true'>
                             Add Payment
-                        </v-btn>
+                        </v-btn> -->
                     </v-card-title>
                     <v-data-table :headers="headers" :items="advertisements" :search="search" :loading="loading">
                         <template v-slot:item.id="{ item }">
@@ -31,12 +31,12 @@
                             <!-- <v-icon medium color="red" @click="reject_advertisement(item)" v-if="item.status=='Pending'">
                                 fa-times
                             </v-icon> -->
-                            <v-icon medium color="blue" @click="open_update_advertisement_dialog(item)">
+                            <!-- <v-icon medium color="blue" @click="open_update_advertisement_dialog(item)">
                                 fa-pen
                             </v-icon>
                             <v-icon medium color="red" @click="delete_advertisement(item)">
                                 fa-trash
-                            </v-icon>
+                            </v-icon> -->
                         </template>
                     </v-data-table>
                 </v-card>

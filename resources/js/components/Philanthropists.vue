@@ -96,9 +96,9 @@
             headers: [
                 {text: '#', value: 'id'},
                 {text: 'Name', value: 'user.name'},
-                {text: 'Username', value: 'user.username'},
+                {text: 'Username', value: 'username'},
                 {text: 'Email', value: 'user.email'},
-                {text: 'Contact Number', value: 'contact_number'},
+                {text: 'Contact Number', value: 'user.contact_number'},
                 {text: 'Points', value: 'user.points'},
                 {text: 'Actions', value: 'actions', sortable: false},
             ],

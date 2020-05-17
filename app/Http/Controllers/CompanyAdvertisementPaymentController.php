@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+
 use App\CompanyAdvertisementPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -9,11 +11,56 @@ use Illuminate\Support\Facades\Validator;
 class CompanyAdvertisementPaymentController extends Controller
 {
     public function get_payment_record(\App\CompanyAdvertisement $advertisement) {
-        return $advertisement->payment;
+        $months=[
+            '01' => "",
+            '02' => "",
+            '03' => "",
+            '04' => "",
+            '05' => "",
+            '06' => "",
+            '07' => "",
+            '08' => "",
+            '09' => "",
+            '10' => "",
+            '11' => "",
+            '12' => "",
+        ];
+        
+        $payments = $advertisement->payment;
+        foreach($payments as $payment) {
+            if(date('Y', strtotime($payment->inclusive_from)) < request('year') && date('Y', strtotime($payment->inclusive_to)) > request('year')) {
+                for ($x = 1; $x <= 12; $x++) {
+                    $months[str_pad($x, 2, "0", STR_PAD_LEFT)] = $payment->date_paid;
+                }
+            }
+            else if (date('Y', strtotime($payment->inclusive_from)) == request('year') && date('Y', strtotime($payment->inclusive_to)) > request('year')) {
+                $inclusive_from = date('m', strtotime($payment->inclusive_from));
+                for ($x = $inclusive_from+1; $x <= 12; $x++) {
+                    $months[str_pad($x, 2, "0", STR_PAD_LEFT)] = $payment->date_paid;
+                }
+            }
+            else if (date('Y', strtotime($payment->inclusive_from)) < request('year') && date('Y', strtotime($payment->inclusive_to)) == request('year')) {
+                $inclusive_to = date('m', strtotime($payment->inclusive_to));
+                for ($x = 1; $x <= $inclusive_to; $x++) {
+                    $months[str_pad($x, 2, "0", STR_PAD_LEFT)] = $payment->date_paid;
+                }
+            }
+            else if (date('Y', strtotime($payment->inclusive_from)) == request('year') && date('Y', strtotime($payment->inclusive_to)) == request('year')) {
+                $inclusive_from = date('m', strtotime($payment->inclusive_from));
+                $inclusive_to = date('m', strtotime($payment->inclusive_to));
+                $month = $inclusive_to-$inclusive_from;
+
+                for ($x = 1; $x <= $month; $x++) {
+                    $months[str_pad($inclusive_from + $x, 2, "0", STR_PAD_LEFT)] = $payment->date_paid;
+                }
+            }
+        }
+
+        return $months;
     }
 
-    public function get_payment_record_company(Request $request) {
-        return $request->user()->company->payment;
+    public function get_payment_record_company(Request $request, \App\Company $company) {
+        return $company->payment()->where(DB::raw('YEAR(created_at)'), $request['year'])->with('advertisement')->orderBy('date_paid', 'DESC')->get();
     }
     /**
      * Display a listing of the resource.
@@ -51,8 +98,10 @@ class CompanyAdvertisementPaymentController extends Controller
             'amount' => ['required', 'max:225'],
         ]);
 
-        $payment = CompanyAdvertisementPayment::create($request->all());
-        $payment->advertisement()->update(['status'=>'Active']);
+        $ad = \App\CompanyAdvertisement::find($request['company_advertisement_id']);
+        $request['company_id'] = $ad->company_id;
+        $ad->payment()->create($request->all());
+        $ad->update(['status'=>'Active']);
     }
 
     /**

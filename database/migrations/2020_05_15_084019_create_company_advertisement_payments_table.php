@@ -16,6 +16,7 @@ class CreateCompanyAdvertisementPaymentsTable extends Migration
         Schema::create('company_advertisement_payments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_advertisement_id');
+            $table->unsignedBigInteger('company_id');
             $table->date('inclusive_from');
             $table->date('inclusive_to');
             $table->date('date_paid');
@@ -23,6 +24,7 @@ class CreateCompanyAdvertisementPaymentsTable extends Migration
             $table->timestamps();
 
             $table->foreign('company_advertisement_id')->references('id')->on('company_advertisements')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 

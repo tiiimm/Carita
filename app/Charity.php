@@ -26,4 +26,8 @@ class Charity extends Model
     public function events() {
         return $this->hasMany('App\CharityEvent');
     }
+
+    public function partnered_companies() {
+        return $this->hasMany('App\Company');
+    }
 }

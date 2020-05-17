@@ -2,12 +2,158 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+
 use App\Charity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CharityController extends Controller
 {
+    public function get_supports(Request $request, Charity $charity) {
+        $months=[
+            '01' => 0,
+            '02' => 0,
+            '03' => 0,
+            '04' => 0,
+            '05' => 0,
+            '06' => 0,
+            '07' => 0,
+            '08' => 0,
+            '09' => 0,
+            '10' => 0,
+            '11' => 0,
+            '12' => 0,
+        ];
+        $event_months=[
+            '01' => 0,
+            '02' => 0,
+            '03' => 0,
+            '04' => 0,
+            '05' => 0,
+            '06' => 0,
+            '07' => 0,
+            '08' => 0,
+            '09' => 0,
+            '10' => 0,
+            '11' => 0,
+            '12' => 0,
+        ];
+        $ad_months=[
+            '01' => 0,
+            '02' => 0,
+            '03' => 0,
+            '04' => 0,
+            '05' => 0,
+            '06' => 0,
+            '07' => 0,
+            '08' => 0,
+            '09' => 0,
+            '10' => 0,
+            '11' => 0,
+            '12' => 0,
+        ];
+        
+        $companies = $charity->partnered_companies()->with('advertisements')->get();
+        foreach($companies as $company) {
+            foreach($company->advertisements as $advertisement) {
+                $ad_points = $advertisement->watchable()->where(DB::raw('YEAR(created_at)'), $request['year'])->select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as points'))->groupBy('month')->get();
+
+                foreach($ad_points as $ad_point) {
+                    if ($ad_point->month == 1)
+                        $ad_months['01']+=$ad_point->points;
+                    if ($ad_point->month == 2)
+                        $ad_months['02']+=$ad_point->points;
+                    if ($ad_point->month == 3)
+                        $ad_months['03']+=$ad_point->points;
+                    if ($ad_point->month == 4)
+                        $ad_months['04']+=$ad_point->points;
+                    if ($ad_point->month == 5)
+                        $ad_months['05']+=$ad_point->points;
+                    if ($ad_point->month == 6)
+                        $ad_months['06']+=$ad_point->points;
+                    if ($ad_point->month == 7)
+                        $ad_months['07']+=$ad_point->points;
+                    if ($ad_point->month == 8)
+                        $ad_months['08']+=$ad_point->points;
+                    if ($ad_point->month == 9)
+                        $ad_months['09']+=$ad_point->points;
+                    if ($ad_point->month ==10)
+                        $ad_months['10']+=$ad_point->points;
+                    if ($ad_point->month ==11)
+                        $ad_months['11']+=$ad_point->points;
+                    if ($ad_point->month ==12)
+                        $ad_months['12']+=$ad_point->points;
+                }
+            }
+        }
+
+        $events = $charity->events()->with('watchable')->get();
+        foreach ($events as $event) {
+                $event_points= $event->watchable()->where(DB::raw('YEAR(created_at)'), $request['year'])->select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as points'))->groupBy('month')->get();
+
+                foreach($event_points as $event_point) {
+                    if ($event_point->month == 1)
+                        $event_months['01']+=$event_point->points;
+                    if ($event_point->month == 2)
+                        $event_months['02']+=$event_point->points;
+                    if ($event_point->month == 3)
+                        $event_months['03']+=$event_point->points;
+                    if ($event_point->month == 4)
+                        $event_months['04']+=$event_point->points;
+                    if ($event_point->month == 5)
+                        $event_months['05']+=$event_point->points;
+                    if ($event_point->month == 6)
+                        $event_months['06']+=$event_point->points;
+                    if ($event_point->month == 7)
+                        $event_months['07']+=$event_point->points;
+                    if ($event_point->month == 8)
+                        $event_months['08']+=$event_point->points;
+                    if ($event_point->month == 9)
+                        $event_months['09']+=$event_point->points;
+                    if ($event_point->month ==10)
+                        $event_months['10']+=$event_point->points;
+                    if ($event_point->month ==11)
+                        $event_months['11']+=$event_point->points;
+                    if ($event_point->month ==12)
+                        $event_months['12']+=$event_point->points;
+                }
+        }
+
+        $points = $charity->watchable()->where(DB::raw('YEAR(created_at)'), $request['year'])->select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as points'))
+        ->groupBy('month')
+        ->get();
+
+        foreach($points as $point) {
+            if ($point->month == 1)
+                $months['01']=$point->points;
+            if ($point->month == 2)
+                $months['02']=$point->points;
+            if ($point->month == 3)
+                $months['03']=$point->points;
+            if ($point->month == 4)
+                $months['04']=$point->points;
+            if ($point->month == 5)
+                $months['05']=$point->points;
+            if ($point->month == 6)
+                $months['06']=$point->points;
+            if ($point->month == 7)
+                $months['07']=$point->points;
+            if ($point->month == 8)
+                $months['08']=$point->points;
+            if ($point->month == 9)
+                $months['09']=$point->points;
+            if ($point->month ==10)
+                $months['10']=$point->points;
+            if ($point->month ==11)
+                $months['11']=$point->points;
+            if ($point->month ==12)
+                $months['12']=$point->points;
+        }
+
+        return ['charity'=>$months, 'event_points'=>$event_months, 'ad_points'=>$ad_months];
+    }
+
     public function get_feeds() {
         $feeds = [];
         $charities = \App\Charity::where('status', 'Approved')->with('user')->get();
@@ -93,19 +239,52 @@ class CharityController extends Controller
     public function get_charities(Request $request) {
         if ($request->user()->role == "Administrator")
             return \App\Charity::with('user')->get();
+        else if ($request->user()->role == "Company") {
+            if (!is_null($request->user()->company->charity_id))
+                return 'Partnered';
+            else return \App\Charity::where('status', 'Approved')->with('user')->get();
+        }
         else
             return \App\Charity::where('status', 'Approved')->with('user')->get();
     }
 
-    public function show(Charity $charity) {
+    public function show(Request $request, Charity $charity) {
+        $charity['donate'] = true;
+        if ($request->user()->role == "Charity")
+            if ($charity->id == $request->user()->charity->id)
+                $charity['donate'] = false;
+        if ($request->user()->role == "Company")
+            if ($charity->id == $request->user()->company->charity_id)
+                $charity['donate'] = false;
         $charity->user;
-        $charity->ads = \App\CompanyAdvertisement::where('status', 'Active')->get();
+        
+        $ads = \App\CompanyAdvertisement::where('status', 'Active')->get();
+        foreach ($ads as $key => $ad) {
+            if (!is_null($ad->charity_id))
+                if ($ad->charity_id <> $charity->id)
+                    unset($ads[$key]);
+        }
+        $charity['ads']=$ads;
         return $charity;
     }
 
-    public function show_event(\App\CharityEvent $event) {
+    public function show_event(Request $request, \App\CharityEvent $event) {
         $event->charity;
-        $event->ads = \App\CompanyAdvertisement::where('status', 'Active')->get();
+        $event['donate'] = true;
+        if ($request->user()->role == "Charity")
+            if ($event->charity->id == $request->user()->charity->id)
+                $event['donate'] = false;
+        if ($request->user()->role == "Company")
+            if ($event->charity->id == $request->user()->company->charity_id)
+                $event['donate'] = false;
+
+        $ads = \App\CompanyAdvertisement::where('status', 'Active')->get();
+        foreach ($ads as $key => $ad) {
+            if (!is_null($ad->charity_id))
+                if ($ad->charity_id <> $event->charity->id)
+                    unset($ads[$key]);
+        }
+        $event['ads']=$ads;
         return $event;
     }
 

@@ -4,7 +4,7 @@
             <v-container class="px-7">
                 <v-card>
                     <v-card-title>
-                        <v-icon class="mr-2" color="primary">fa-users</v-icon>
+                        <v-icon class="mr-2" color="primary">fa-building</v-icon>
                         Companies
                         <v-spacer/>
                         <v-text-field class="mr-5" label="Search" v-model="search" prepend-inner-icon="fa-search"/>

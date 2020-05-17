@@ -57,7 +57,13 @@ class CompanyController extends Controller
     }
 
     public function get_own_advertisements(Company $company) {
-        return $company->advertisements()->with('company')->get();
+        $ads = $company->advertisements()->with('company', 'charity')->get();
+        foreach($ads as $ad) {
+            $ad['active_until'] = $ad->payment()->latest()->first()['inclusive_to'];
+            if ($ad['active_until'] < date('Y-m-d'))
+                $ad['status'] = 'Inactive';
+        }
+        return $ads;
     }
 
     public function get_advertisements() {
@@ -71,7 +77,13 @@ class CompanyController extends Controller
     }
 
     public function get_have_charity_advertisements() {
-        return \App\CompanyAdvertisement::where('charity_id', '<>', null)->with('company', 'charity')->get();
+        $ads = \App\CompanyAdvertisement::where('charity_id', '<>', null)->where('status', 'Active')->with('company', 'charity')->get();
+        foreach($ads as $ad) {
+            $ad['active_until'] = $ad->payment()->latest()->first()['inclusive_to'];
+            if ($ad['active_until'] < date('Y-m-d'))
+                $ad['status'] = 'Inactive';
+        }
+        return $ads->where('status', 'Active');
     }
 
     public function show_advertisement(\App\CompanyAdvertisement $advertisement) {

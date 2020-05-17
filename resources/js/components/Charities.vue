@@ -8,9 +8,9 @@
                         Charities
                         <v-spacer/>
                         <v-text-field class="mr-5" label="Search" v-model="search" prepend-inner-icon="fa-search"/>
-                        <v-btn outlined color="primary" @click.stop='charity_dialog = true'>
+                        <!-- <v-btn outlined color="primary" @click.stop='charity_dialog = true'>
                             Add Charity
-                        </v-btn>
+                        </v-btn> -->
                     </v-card-title>
                     <v-data-table :headers="headers" :items="charities" :search="search" :loading="loading">
                         <template v-slot:item.id="{ item }">
@@ -23,12 +23,12 @@
                             <v-icon medium color="red" @click="reject_charity(item)" v-if="item.status=='Pending'">
                                 fa-times
                             </v-icon>
-                            <v-icon medium color="blue" @click="open_update_charity_dialog(item)">
+                            <!-- <v-icon medium color="blue" @click="open_update_charity_dialog(item)">
                                 fa-pen
                             </v-icon>
                             <v-icon medium color="red" @click="delete_charity(item)">
                                 fa-trash
-                            </v-icon>
+                            </v-icon> -->
                         </template>
                     </v-data-table>
                 </v-card>

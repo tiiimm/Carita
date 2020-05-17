@@ -17,14 +17,5 @@
         },
         created() {
         },
-        beforeRouteEnter (to, from, next) {
-            // if(localStorage.getItem('user-type') == "Partnered Establishment"){
-            // return next('/establishment')
-            // }
-            // else if(localStorage.getItem('user-type') == "Cashier"){
-            // return next('/cashier')
-            // }
-            next();
-        }
     }
 </script>
