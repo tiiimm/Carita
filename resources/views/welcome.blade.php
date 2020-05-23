@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-        <title>Carita</title>
+        <title>CaritaApp</title>
 
         <link href="css/app.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
